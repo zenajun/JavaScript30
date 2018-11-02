@@ -58,28 +58,34 @@
   <audio data-key="76" src="sounds/tink.wav"></audio>
 
 <script>
-
   function playSound(e) {
+  // 2.  Find the div with the matching keycode
     const audio = document.querySelector(`audio[data-key="${e.keyCode}"`);
-    const key = document.querySelector(`.key[data-key="${e.keyCode}"`);
-    if (!audio) return;
+    const key = document.querySelector(`div[data-key="${e.keyCode}"`);
+  // 3.  If 'keydown' is for an unused key, do nothing.
+  // 4.  Else, play() the audio clip that matches the keyCode.
+  // 5.  Add class of 'playing' to the div, classList.add
+    if(!audio) return;
     audio.currentTime = 0; //rewind to the start
-    audio.play();
-    key.classList.add('playing');
+    audio.play();    
+    key.classList.add('playing');    
   }
+  
 
-  function removeTransition(e) {   // Don't use arrow function, so we have access to 'this'
+
+  function removeTransition(e) {
     if(e.propertyName !== 'transform') return;
-    this.classList.remove('playing'); 
+    this.classList.remove('playing');      
   }
-
-       
+  
   const keys = document.querySelectorAll('.key');
+  console.log(keys);
   
+  // 6.  Listen for when transition has ended (transitionend), then remove the class of playing
   keys.forEach(key => key.addEventListener('transitionend', removeTransition));
-  
-  window.addEventListener('keydown', playSound); 
 
+  // 1.  Listen for 'keydown'
+  window.addEventListener('keydown', playSound);
 </script>
 
 
